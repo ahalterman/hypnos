@@ -21,7 +21,8 @@ or
 
 `docker-compose up -d`
 
-to run in the background.
+to run in the background. These commands work both to set it up the first time
+you run it, and to restart the service if you stop it or restart your computer.
 
 This assumes that you have `docker-compose` and `docker` installed.
 
@@ -56,3 +57,10 @@ Returns:
               (PP (IN IN ) (NP (JJ NORTHEASTERN ) (NNP NIGERIA ) ) ) ) ) ) ) )
               (. . ) ) )'}}}}
 ```
+
+Usage
+-----
+
+The `usage` directory contains a Python program for pulling stories from a
+Mongo database, processing the results using `hypnos`, and updating the
+original record in Mongo to include the output of `hypnos`.

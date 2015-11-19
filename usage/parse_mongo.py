@@ -1,17 +1,29 @@
 import requests
 from pymongo import MongoClient
 import json
+import argparse
+parser = argparse.ArgumentParser()
+
+parser.add_argument("--db", help="Mongo database to read from")
+parser.add_argument("--collection", help="Mongo collection to read from")
+parser.add_argument("--limit", help="Max number of stories to parse")
+
+args = parser.parse_args()
 
 connection = MongoClient()
+#DB = args.db
 db = connection.lexisnexis
-collection = db["test"]
+collection = db[args.collection]
 
-t = collection.find().limit(500)
+t = collection.find({"hypnos" : { "$ne" : 0}}).limit(int(args.limit))
 
 output = []
 junk = []
 
 # figure out /process and /code
+
+print "Processing {0} stories...".format(args.limit)
+print "This function only returns the extracted events"
 
 headers = {'Content-Type': 'application/json'}
 
@@ -24,11 +36,12 @@ for i in t:
                      headers=headers)
     rj = r.json()
     try:   # clunky check for key
-        rj['status'] 
+        rj['status']
         junk.append(rj)
     except:
+        collection.update({"doc_id" : i["doc_id"]}, {"$set" : {"rj" : rj, "tmp"
+            : 1}})
         output.append(rj)
-
 
 for o in output:
     for key, s in o[o.keys()[0]]['sents'].iteritems():
