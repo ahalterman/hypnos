@@ -43,7 +43,10 @@ for i in t:
             : 1}})
         output.append(rj)
 
+count = 0
 for o in output:
     for key, s in o[o.keys()[0]]['sents'].iteritems():
         if s['events']:
-            print s['events']
+            pass
+            #print s['events']
+            #count = count + 1
